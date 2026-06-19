@@ -1,4 +1,4 @@
-export default function HowItWorks() {
+export default function howitworks() {
   return (
     <section className="py-24 bg-gray-50">
       <div className="max-w-6xl mx-auto px-6">

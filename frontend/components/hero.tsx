@@ -1,4 +1,4 @@
-export default function Hero() {
+export default function hero() {
   return (
     <section className="py-32 text-center bg-gradient-to-b from-violet-50 to-white">
       <h1 className="text-6xl font-bold mb-6 text-gray-900">
@@ -15,9 +15,12 @@ export default function Hero() {
         and creative strengths like never before.
       </p>
 
-      <button className="mt-10 bg-violet-600 hover:bg-violet-700 text-white px-8 py-4 rounded-xl transition">
-        Get Started
-      </button>
+      <a
+  href="/Intro"
+  className="bg-violet-600 text-white px-8 py-4 rounded-xl"
+>
+  Get Started
+</a>
     </section>
   );
 }

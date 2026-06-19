@@ -1,4 +1,5 @@
-export default function Navbar() {
+import Link from "next/link";
+export default function navbar() {
   return (
     <nav className="border-b">
       <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
@@ -12,9 +13,9 @@ export default function Navbar() {
           <a href="#">Pricing</a>
         </div>
 
-        <button className="bg-violet-600 text-white px-4 py-2 rounded-lg">
+        <Link href="/login" className="bg-violet-600 text-white px-6 py-3 rounded-xl">
           Login
-        </button>
+        </Link>
       </div>
     </nav>
   );

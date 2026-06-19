@@ -1,4 +1,4 @@
-interface FeatureCardProps {
+interface featurecardprops {
   title: string;
   description: string;
 }
@@ -6,7 +6,7 @@ interface FeatureCardProps {
 export default function FeatureCard({
   title,
   description,
-}: FeatureCardProps) {
+}: featurecardprops) {
   return (
     <div className="rounded-2xl border border-gray-200 p-8 shadow-sm hover:shadow-lg transition">
       <h3 className="text-xl font-bold mb-4">

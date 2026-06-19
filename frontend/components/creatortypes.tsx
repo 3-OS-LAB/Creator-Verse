@@ -1,4 +1,4 @@
-export default function CreatorTypes() {
+export default function creatortypes() {
   const creators = [
     "Content Creators",
     "YouTubers",

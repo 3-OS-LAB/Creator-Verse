@@ -1,4 +1,4 @@
-export default function Footer() {
+export default function footer() {
   return (
     <footer className="border-t mt-24 py-12 text-center">
       <h2 className="text-2xl font-bold text-violet-600">

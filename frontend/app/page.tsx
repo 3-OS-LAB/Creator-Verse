@@ -1,10 +1,10 @@
-import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import FeatureCard from "@/components/FeatureCard";
-import Footer from "@/components/Footer";
-import CreatorTypes from "@/components/CreatorTypes";
-import HowItWorks from "@/components/HowItWorks";
-import CTA from "@/components/CTA";
+import Navbar from "@/components/navbar";
+import Hero from "@/components/hero";
+import FeatureCard from "@/components/featurecard";
+import Footer from "@/components/footer";
+import CreatorTypes from "@/components/creatortypes";
+import HowItWorks from "@/components/howitworks";
+import CTA from "@/components/cta";
 import Link from "next/link";
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
       <Hero />
 
       {/* Features */}
-      <Link href="/intro" className="bg-violet-600 text-white px-8 py-4 rounded-x1">Get Started</Link>
+      <Link href="/intro" className="bg-violet-600 text-white px-8 py-4 rounded-xl">Get Started</Link>
       <section className="max-w-6xl mx-auto px-6 py-20">
         <h2 className="text-4xl font-bold text-center mb-12">
           Everything a Creator Needs
