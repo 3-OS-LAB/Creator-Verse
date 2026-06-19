@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CreatorTypes from "@/components/CreatorTypes";
 import HowItWorks from "@/components/HowItWorks";
 import CTA from "@/components/CTA";
+import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
 
       {/* Features */}
+      <Link href="/intro" className="bg-violet-600 text-white px-8 py-4 rounded-x1">Get Started</Link>
       <section className="max-w-6xl mx-auto px-6 py-20">
         <h2 className="text-4xl font-bold text-center mb-12">
           Everything a Creator Needs
