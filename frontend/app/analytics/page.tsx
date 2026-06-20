@@ -1,4 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
+
 export default function AnalyticsPage() {
+  const [memories, setMemories] = useState(0);
+  const [calendar, setCalendar] = useState(0);
+  
+useEffect(() => {
+  loadAnalytics();
+}, []);
+
+async function loadAnalytics() {
+  const { count: memoryCount } = await supabase
+    .from("creator_memory")
+    .select("*", { count: "exact", head: true });
+
+  const { count: calendarCount } = await supabase
+    .from("content_calendar")
+    .select("*", { count: "exact", head: true });
+
+  setMemories(memoryCount || 0);
+  setCalendar(calendarCount || 0);
+}
+
   return (
     <div className="min-h-screen p-8">
 
@@ -37,6 +62,27 @@ export default function AnalyticsPage() {
             71%
           </p>
         </div>
+        
+<div className="bg-white p-6 rounded-xl shadow">
+  <h2 className="font-semibold">
+    Memories Saved
+  </h2>
+
+  <p className="text-3xl mt-3">
+    {memories}
+  </p>
+</div>
+
+<div className="bg-white p-6 rounded-xl shadow">
+  <h2 className="font-semibold">
+    Calendar Items
+  </h2>
+
+  <p className="text-3xl mt-3">
+    {calendar}
+  </p>
+</div>
+
 
       </div>
 

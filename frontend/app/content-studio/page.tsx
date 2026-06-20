@@ -1,4 +1,59 @@
+
+"use client";
+
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+
 export default function ContentStudioPage() {
+  
+  const [topic, setTopic] = useState("");
+  const [hook, setHook] = useState("");
+  const [title, setTitle] = useState("");
+  const [script, setScript] = useState("");
+
+  async function generateContent() {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        topic,
+      }),
+    });
+
+    const data = await res.json();
+
+   setScript(data.result);
+  }
+
+  async function saveToMemory() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      alert("Please login");
+      return;
+    }
+
+    const { error } = await supabase
+      .from("creator_memory")
+      .insert({
+  user_id: user.id,
+  title: topic,
+  content: script,
+});
+
+    if (error) {
+      alert(error.message);
+      console.log(error);
+      return;
+    }
+
+    alert("Saved to Creator Memory");
+  }
+
   return (
     <div className="min-h-screen p-8">
 
@@ -6,31 +61,45 @@ export default function ContentStudioPage() {
         Content Studio
       </h1>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <input
+        type="text"
+        placeholder="Enter a topic"
+        value={topic}
+        onChange={(e) => setTopic(e.target.value)}
+        className="border p-3 rounded-xl w-full mb-4"
+      />
 
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-bold mb-4">
-            Video Ideas
-          </h2>
+      <button
+        onClick={generateContent}
+        className="bg-violet-600 text-white px-6 py-3 rounded-xl"
+      >
+        Generate Content
+      </button>
 
-          <ul className="space-y-2">
-            <li>10 AI Tools Every Creator Needs</li>
-            <li>My Biggest Startup Mistake</li>
-            <li>How I Got My First 1000 Followers</li>
-          </ul>
-        </div>
+      
+{script && (
+  <div className="mt-8 grid gap-6">
 
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-bold mb-4">
-            Hook Generator
-          </h2>
+    <div className="bg-white p-6 rounded-xl shadow">
+      <h2 className="font-bold mb-4">
+        AI Generated Content
+      </h2>
 
-          <p>
-            "I wish someone told me this before I started..."
-          </p>
-        </div>
+      <p className="whitespace-pre-wrap">
+        {script}
+      </p>
+    </div>
 
-      </div>
+    <button
+      onClick={saveToMemory}
+      className="bg-green-600 text-white px-6 py-3 rounded-xl"
+    >
+      Save to Memory
+    </button>
+
+  </div>
+)}
+
 
     </div>
   );

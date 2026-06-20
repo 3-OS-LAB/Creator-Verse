@@ -21,11 +21,15 @@ async function loadData() {
     return;
   }
 
-  const { data } = await supabase
-    .from("creator_dna")
-    .select("*")
-    .eq("id", user.id)
-    .single();
+  const { data, error } = await supabase
+  .from("creator_analysis")
+  .select("*")
+  .eq("id", user.id)
+  .single();
+
+console.log("USER ID:", user.id);
+console.log("DATA:", data);
+console.log("ERROR:", error);
 
   setDna(data);
 }
@@ -36,59 +40,103 @@ async function loadData() {
       <h1 className="text-4xl font-bold mb-8">
         CreatorVerse Dashboard
       </h1>
+      
 
       {/* Score Cards */}
-      <div className="grid md:grid-cols-3 gap-6">
+{/*<div className="grid md:grid-cols-3 gap-6">
 
-        <a href="/audience-dna">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg cursor-pointer">
-            <h2 className="font-semibold">Creator DNA Score</h2>
-            <p className="text-3xl mt-3"> {dna? Math.round((
-                                                             dna.storytelling +
-                                                             dna.education +
-                                                             dna.humor +
-                                                             dna.motivation +
-                                                             dna.audience_engagement) / 5) : 0} % 
-            </p>
-          </div>
-        </a>
+  Creator DNA Score Card
+  Audience Match Card
+  Storytelling Score Card
+  Education Score Card
+  Humor Score Card
+  Growth Potential Card
 
-        <a href="/analytics">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg cursor-pointer">
-            <h2 className="font-semibold">Audience Match</h2>
-            <p className="text-3xl mt-3"> {dna?.audience_engagement || 0}% </p>
-          </div>
-        </a>
+</div>
+  {/* Creator DNA Breakdown */}
+<div className="mt-6 bg-white p-6 rounded-xl shadow">
 
-        <a href="/creator-memory">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg cursor-pointer">
-            <h2 className="font-semibold">Storytelling Score</h2>
-            <p className="text-3xl mt-3"> {dna?.storytelling || 0}% </p>
-          </div>
-        </a>
+  <h2 className="text-2xl font-bold mb-6">
+    Creator DNA Breakdown
+  </h2>
 
-        <a href="/creator-memory">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg cursor-pointer">
-            <h2 className="font-semibold">Education Score</h2>
-            <p className="text-3xl mt-3"> {dna?.education || 0}% </p>
-          </div>
-        </a>
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-        <a href="/analytics">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg cursor-pointer">
-            <h2 className="font-semibold">Humor Score</h2>
-            <p className="text-3xl mt-3"> {dna?.humor || 0}% </p>
-          </div>
-        </a>
+    <div className="bg-violet-50 p-4 rounded-xl">
+      <h3 className="text-gray-600">
+        Storytelling
+      </h3>
 
-        <a href="/analytics">
-          <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg cursor-pointer">
-            <h2 className="font-semibold">Growth Potential</h2>
-            <p className="text-3xl mt-3"> {dna?.motivation || 0}% </p>
-          </div>
-        </a>
+      <p className="text-3xl font-bold text-violet-600 mt-2">
+        {dna?.storytelling || 0}%
+      </p>
+    </div>
 
-      </div>
+    <div className="bg-green-50 p-4 rounded-xl">
+      <h3 className="text-gray-600">
+        Education
+      </h3>
+
+      <p className="text-3xl font-bold text-green-600 mt-2">
+        {dna?.education || 0}%
+      </p>
+    </div>
+
+    <div className="bg-yellow-50 p-4 rounded-xl">
+      <h3 className="text-gray-600">
+        Humor
+      </h3>
+
+      <p className="text-3xl font-bold text-yellow-600 mt-2">
+        {dna?.humor || 0}%
+      </p>
+    </div>
+
+    <div className="bg-blue-50 p-4 rounded-xl">
+      <h3 className="text-gray-600">
+        Motivation
+      </h3>
+
+      <p className="text-3xl font-bold text-blue-600 mt-2">
+        {dna?.motivation || 0}%
+      </p>
+    </div>
+
+    <div className="bg-orange-50 p-4 rounded-xl">
+      <h3 className="text-gray-600">
+        Audience Engagement
+      </h3>
+
+      <p className="text-3xl font-bold text-orange-600 mt-2">
+        {dna?.audience_engagement || 0}%
+      </p>
+    </div>
+
+    <div className="bg-pink-50 p-4 rounded-xl">
+      <h3 className="text-gray-600">
+        Creator DNA Score
+      </h3>
+
+      <p className="text-3xl font-bold text-pink-600 mt-2">
+        {dna
+          ? Math.round(
+              (
+                dna.storytelling +
+                dna.education +
+                dna.humor +
+                dna.motivation +
+                dna.audience_engagement
+              ) / 5
+            )
+          : 0}
+        %
+      </p>
+    </div>
+
+  </div>
+
+</div>
+
 
       {/* Top Creator Strengths */}
       <div className="mt-10 bg-white p-6 rounded-xl shadow">
@@ -116,25 +164,14 @@ async function loadData() {
         </ul>
       </div>
 
-      {/* Creator DNA Breakdown */}
-      <div className="mt-6 bg-white p-6 rounded-xl shadow">
-        <h2 className="text-2xl font-bold mb-4">
-          Creator DNA Breakdown
-        </h2>
-
-        <p>Storytelling — 92%</p>
-        <p>Education — 95%</p>
-        <p>Humor — 74%</p>
-        <p>Motivation — 89%</p>
-        <p>Audience Engagement — 88%</p>
-      </div>
+      
 
       {/* Quick Actions */}
       <div className="mt-6 bg-white p-6 rounded-xl shadow">
         <h2 className="text-2xl font-bold mb-4">
           Quick Actions
         </h2>
-
+        
         <div className="flex flex-wrap gap-4">
 
           <a
@@ -143,7 +180,8 @@ async function loadData() {
           >
             Upload Content
           </a>
-
+          <a href="/analyze" className="bg-red-600 text-white px-6 py-3 rounded-xl"> Analyze Content
+          </a>
           <a
             href="/creator-chat"
             className="bg-green-600 text-white px-6 py-3 rounded-xl"
@@ -190,6 +228,8 @@ async function loadData() {
           className="bg-orange-600 text-white px-6 py-3 rounded-xl"
         >
           Analytics
+        </a>
+        <a href="/reel-generator" className="bg-red-600 text-white px-6 py-3 rounded-xl"> AI Reel Generator
         </a>
 
       </div>

@@ -1,40 +1,72 @@
+
+"use client";
+
+import { useState } from "react";
+
 export default function CreatorChatPage() {
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+
+  async function askQuestion() {
+  try {
+    const res = await fetch("/api/generate/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question,
+      }),
+    });
+
+    console.log("STATUS:", res.status);
+
+    const text = await res.text();
+
+    console.log("RAW RESPONSE:", text);
+    console.log("STATUS:", res.status);
+console.log("TEXT:", text);
+    const data = JSON.parse(text);
+
+    setAnswer(data.answer);
+  } catch (error: any) {
+  console.error("FULL ERROR:", error);
+
+  alert(error?.message || "Unknown Error");
+}}
+
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen p-8">
 
       <h1 className="text-4xl font-bold mb-8">
         Creator Chat
       </h1>
 
-      <div className="bg-white rounded-xl shadow p-6 space-y-6">
+      <textarea
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        placeholder="Ask anything..."
+        className="w-full border p-4 rounded-xl h-32"
+      />
 
-        <div className="flex justify-end">
-          <div className="bg-violet-600 text-white p-4 rounded-xl max-w-md">
-            What type of content performs best?
-          </div>
+      <button
+        onClick={askQuestion}
+        className="mt-4 bg-violet-600 text-white px-6 py-3 rounded-xl"
+      >
+        Ask AI
+      </button>
+
+      {answer && (
+        <div className="mt-8 bg-white p-6 rounded-xl shadow">
+          <h2 className="font-bold mb-3">
+            AI Response
+          </h2>
+
+          <p className="whitespace-pre-wrap">
+            {answer}
+          </p>
         </div>
-
-        <div className="flex justify-start">
-          <div className="bg-gray-100 p-4 rounded-xl max-w-lg">
-            Your highest-performing content contains
-            personal stories, educational insights,
-            and strong emotional hooks.
-          </div>
-        </div>
-
-      </div>
-
-      <div className="mt-6 flex gap-4">
-        <input
-          type="text"
-          placeholder="Ask CreatorVerse..."
-          className="flex-1 border p-4 rounded-xl"
-        />
-
-        <button className="bg-violet    -600 text-white px-8 rounded-xl">
-          Send
-        </button>
-      </div>
+      )}
 
     </div>
   );
